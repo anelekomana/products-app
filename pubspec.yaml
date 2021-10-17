@@ -1,0 +1,37 @@
+name: productsapp
+description: A products app.
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  #global_configuration: ^1.6.0
+  hexcolor: ^2.0.5
+  dio: ^4.0.0
+  equatable: ^2.0.3
+  flutter_bloc: ^7.0.1
+  cached_network_image: ^3.1.0
+  localstorage: ^4.0.0+1
+  quiver: ^3.0.1+1
+  pagination_view: ^2.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+dependency_overrides:
+  http_parser: ^4.0.0
+  http: ^0.13.0
+
+# The following section is specific to Flutter.
+flutter:
+  uses-material-design: true
