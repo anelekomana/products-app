@@ -6,7 +6,12 @@ abstract class ProductEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchFavourites extends ProductEvent {}
+class FetchFavourites extends ProductEvent {
+  final int delay;
+  FetchFavourites({required this.delay});
+  @override
+  List<Object?> get props => [delay];
+}
 
 class SearchProducts extends ProductEvent {
   final String query;

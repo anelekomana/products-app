@@ -4,6 +4,7 @@ import 'package:productsapp/bloc/product/product_bloc.dart';
 import 'package:productsapp/bloc/product/product_event.dart';
 import 'package:productsapp/bloc/product/product_state.dart';
 import 'package:productsapp/models/product.dart';
+import 'package:productsapp/widgets/my_app_bar.dart';
 import 'package:productsapp/widgets/product_widget.dart';
 
 class FavouriteProductsPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class _FavouriteProductsPageState extends State<FavouriteProductsPage> {
   @override
   void initState() {
     _productBloc = BlocProvider.of<FavouriteBlocMixin>(context);
-    _productBloc!.add(FetchFavourites());
+    _productBloc!.add(FetchFavourites(delay: 0));
     super.initState();
   }
 
@@ -27,21 +28,20 @@ class _FavouriteProductsPageState extends State<FavouriteProductsPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Favourites'),
-          centerTitle: true,
+        appBar: const MyAppBar(
+          title: 'Favourites',
+          showFavourites: false,
         ),
         body: BlocConsumer<FavouriteBlocMixin, ProductState>(
           listener: (context, ProductState state) {
             if (state is RemovingFavouriteSuccess) {
-              _productBloc!.add(FetchFavourites());
+              _productBloc!.add(FetchFavourites(delay: 0));
             }
           },
           builder: (context, ProductState state) {
-            if (state is FetchFavourites) {
+            if (state is FetchingFavourites) {
               return const Center(child: CircularProgressIndicator());
-            }
-            if (state is FetchingFavouritesSuccess) {
+            } else if (state is FetchingFavouritesSuccess) {
               if (state.products.isEmpty) {
                 return const Center(child: Text("No data found"));
               }
@@ -65,11 +65,9 @@ class _FavouriteProductsPageState extends State<FavouriteProductsPage> {
                   );
                 },
               );
-            }
-            if (state is ProductsException) {
+            } else {
               return const Center(child: Text("Failed to fetch data"));
             }
-            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),

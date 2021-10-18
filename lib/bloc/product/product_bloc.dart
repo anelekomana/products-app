@@ -19,7 +19,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState>
   @override
   Stream<ProductState> mapEventToState(ProductEvent event) async* {
     if (event is FetchFavourites) {
-      yield* _mapFetchFavouritesToState();
+      yield* _mapFetchFavouritesToState(delay: event.delay);
     }
     if (event is SearchProducts) {
       yield* _mapSearchProductsToState(query: event.query);
@@ -41,13 +41,17 @@ class ProductBloc extends Bloc<ProductEvent, ProductState>
           await productService.searchProducts(query: query);
       yield SearchingProductsSuccess(products: products);
     } catch (e) {
+      print(e);
       yield ProductsException();
     }
   }
 
-  Stream<ProductState> _mapFetchFavouritesToState() async* {
+  Stream<ProductState> _mapFetchFavouritesToState({
+    required int delay,
+  }) async* {
     yield FetchingFavourites();
     try {
+      await Future.delayed(Duration(seconds: delay));
       List<Product> favourites = favouritesService.getAll();
       yield FetchingFavouritesSuccess(products: favourites);
     } catch (e) {

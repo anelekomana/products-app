@@ -11,7 +11,7 @@ void main() {
       create: (_) => ProductBloc(),
     ),
     BlocProvider<FavouriteBlocMixin>(
-      create: (_) => ProductBloc()..add(FetchFavourites()),
+      create: (_) => ProductBloc()..add(FetchFavourites(delay: 5)),
     ),
   ], child: const App()));
 }
